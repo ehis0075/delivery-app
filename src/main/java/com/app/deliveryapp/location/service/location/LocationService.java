@@ -9,5 +9,7 @@ public interface LocationService {
 
     Location createLocation(CreateUpdateLocationRequestDTO requestDTO);
 
+    Location getOneLocation(Long id);
+
     List<Location> getAllLocation();
 }

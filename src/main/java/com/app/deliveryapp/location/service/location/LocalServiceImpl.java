@@ -92,6 +92,12 @@ public class LocalServiceImpl implements LocationService {
     }
 
     @Override
+    public Location getOneLocation(Long id) {
+
+        return locationRepository.findById(id).orElseThrow(() -> new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88));
+    }
+
+    @Override
     public List<Location> getAllLocation() {
         return locationRepository.findAll();
     }

@@ -1,6 +1,7 @@
 package com.app.deliveryapp.deliveryLocation.model;
 
 
+import com.app.deliveryapp.location.model.Location;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,5 +13,6 @@ public class DeliveryLocation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long locationId;
+    @OneToOne
+    private Location location;
 }
