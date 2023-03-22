@@ -40,11 +40,6 @@ public class CityServiceImpl implements CityService {
             throw new GeneralException(ResponseCodeAndMessage.INCOMPLETE_PARAMETERS_91.responseCode, "city name cannot be null or empty!");
         }
 
-        // validate that the city does not exist in that state
-        if(stateRepository.existsByCity_Name(requestDTO.getCityName())){
-            throw new GeneralException(ResponseCodeAndMessage.ALREADY_EXIST_86.responseCode, "city with name " + requestDTO.getCityName() + "already exist");
-        }
-
         List<State> states = requestDTO.getStateNames().stream().map(stateService::findByName).collect(Collectors.toList());
 
         City city = new City();
