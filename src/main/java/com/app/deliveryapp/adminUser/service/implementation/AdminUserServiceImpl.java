@@ -12,6 +12,8 @@ import com.app.deliveryapp.util.GeneralUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class AdminUserServiceImpl implements AdminUserService {
@@ -50,6 +52,11 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         // convert to dto
         return getUserDTO(savedAdminUser);
+    }
+
+    @Override
+    public List<AdminUser> getAllAdminUsers() {
+        return adminUserRepository.findAll();
     }
 
     public AdminUserDTO getUserDTO(AdminUser adminUser) {

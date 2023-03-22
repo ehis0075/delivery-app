@@ -9,4 +9,8 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
     City findByName(String name);
 
+    City findByState_Name(String stateName);
+
+    boolean existsByState_Name(String stateName);
+
 }

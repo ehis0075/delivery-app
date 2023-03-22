@@ -7,11 +7,13 @@ import com.app.deliveryapp.location.model.City;
 import com.app.deliveryapp.location.model.State;
 import com.app.deliveryapp.location.repository.CityRepository;
 import com.app.deliveryapp.location.repository.StateRepository;
+import com.app.deliveryapp.location.service.state.StateService;
 import com.app.deliveryapp.util.GeneralUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -22,31 +24,32 @@ public class CityServiceImpl implements CityService {
 
     private final StateRepository stateRepository;
 
-    public CityServiceImpl(CityRepository cityRepository, StateRepository stateRepository) {
+    private final StateService stateService;
+
+    public CityServiceImpl(CityRepository cityRepository, StateRepository stateRepository, StateService stateService) {
         this.cityRepository = cityRepository;
         this.stateRepository = stateRepository;
+        this.stateService = stateService;
     }
 
     @Override
     public City createCity(CreateUpdateCityRequestDTO requestDTO) {
 
-        if (GeneralUtil.stringIsNullOrEmpty(requestDTO.getStateName())) {
-            throw new GeneralException(ResponseCodeAndMessage.INCOMPLETE_PARAMETERS_91.responseCode, "state name cannot be null or empty!");
-        }
 
         if (GeneralUtil.stringIsNullOrEmpty(requestDTO.getCityName())) {
             throw new GeneralException(ResponseCodeAndMessage.INCOMPLETE_PARAMETERS_91.responseCode, "city name cannot be null or empty!");
         }
 
-        if (!stateRepository.existsByName(requestDTO.getStateName())) {
-            throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "state with name " + requestDTO.stateName + " cannot be found");
+        // validate that the city does not exist in that state
+        if(stateRepository.existsByCity_Name(requestDTO.getCityName())){
+            throw new GeneralException(ResponseCodeAndMessage.ALREADY_EXIST_86.responseCode, "city with name " + requestDTO.getCityName() + "already exist");
         }
 
-        State state = stateRepository.findByName(requestDTO.getStateName());
+        List<State> states = requestDTO.getStateNames().stream().map(stateService::findByName).collect(Collectors.toList());
 
         City city = new City();
         city.setName(requestDTO.getCityName());
-        city.setState(state);
+        city.setStates(states);
 
         return cityRepository.save(city);
     }

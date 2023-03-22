@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -29,6 +30,7 @@ public class DeliveryLocationServiceImpl implements DeliveryLocationService {
 
     @Override
     public DeliveryLocation create(CreateUpdateDeliveryLocationRequestDTO requestDTO) {
+        log.info("Request to create a delivery location with payload = {}", requestDTO);
 
         Location location = locationService.getOneLocation(requestDTO.locationId);
 
@@ -40,19 +42,17 @@ public class DeliveryLocationServiceImpl implements DeliveryLocationService {
 
     @Override
     public DeliveryLocation update(Long id, CreateUpdateDeliveryLocationRequestDTO requestDTO) {
+        log.info("Request to update a delivery location of id = {} with payload = {}", id, requestDTO);
 
-        //validate that DeliveryLocation does exist
         if(!deliveryLocationRepository.existsById(id)){
             throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "Delivery Location with id "+ id +" Not Found");
         }
 
-        //validate that Location does exist
-        if(!deliveryLocationRepository.existsById(requestDTO.getLocationId())){
+        Location location = locationService.getOneLocation(requestDTO.locationId);
+
+        if(Objects.isNull(location)){
             throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "Location with id "+ id +" Not Found");
         }
-
-        // get the location
-        Location location = locationService.getOneLocation(requestDTO.locationId);
 
         // get the deliveryLocation from db
         DeliveryLocation deliveryLocation = getOneDeliveryLocation(id);
@@ -64,6 +64,7 @@ public class DeliveryLocationServiceImpl implements DeliveryLocationService {
 
     @Override
     public DeliveryLocation getOneDeliveryLocation(Long id) {
+        log.info("Getting delivery location with id = {}", id);
 
         return deliveryLocationRepository.findById(id).orElseThrow(() ->
                 new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "Delivery location with id "+ id + " not found"));
@@ -71,11 +72,14 @@ public class DeliveryLocationServiceImpl implements DeliveryLocationService {
 
     @Override
     public void delete(Long id) {
+        log.info("Deleting delivery location with id = {}", id);
+
         deliveryLocationRepository.deleteById(id);
     }
 
     @Override
     public List<DeliveryLocation> getAllDeliveryLocations() {
+        log.info("Getting delivery location list");
 
         return deliveryLocationRepository.findAll();
     }

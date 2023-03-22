@@ -31,14 +31,14 @@ public class DeliveryLocationController {
         return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping ("/update/{id}")
     public Response updateDeliveryLocation(@PathVariable Long id, @RequestBody CreateUpdateDeliveryLocationRequestDTO requestDTO) {
 
         DeliveryLocation data = deliveryLocationService.update(id, requestDTO);
         return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public Response updateDeliveryLocation(@PathVariable Long id) {
 
         deliveryLocationService.delete(id);

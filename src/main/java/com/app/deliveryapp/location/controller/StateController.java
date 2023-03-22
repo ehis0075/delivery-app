@@ -3,6 +3,7 @@ package com.app.deliveryapp.location.controller;
 import com.app.deliveryapp.general.dto.Response;
 import com.app.deliveryapp.general.enums.ResponseCodeAndMessage;
 import com.app.deliveryapp.general.service.GeneralService;
+import com.app.deliveryapp.location.dto.CreateUpdateStateRequestDTO;
 import com.app.deliveryapp.location.model.State;
 import com.app.deliveryapp.location.service.state.StateService;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class StateController {
     }
 
     @PostMapping("/create")
-    public Response createState(@RequestBody State requestDTO) {
+    public Response createState(@RequestBody CreateUpdateStateRequestDTO requestDTO) {
 
         State data = stateService.createState(requestDTO);
         return generalService.prepareResponse(ResponseCodeAndMessage.SUCCESSFUL_0, data);

@@ -1,5 +1,6 @@
 package com.app.deliveryapp.location.service.state;
 
+import com.app.deliveryapp.location.dto.CreateUpdateStateRequestDTO;
 import com.app.deliveryapp.location.model.State;
 import com.app.deliveryapp.location.repository.StateRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +21,17 @@ public class StateServiceImpl implements StateService {
 
 
     @Override
-    public State createState(State requestDTO) {
+    public State createState(CreateUpdateStateRequestDTO requestDTO) {
 
         State state = new State();
-        state.setName(requestDTO.getName());
+        state.setName(requestDTO.getStateName());
 
         return stateRepository.save(state);
+    }
+
+    @Override
+    public State findByName(String name) {
+        return stateRepository.findByName(name);
     }
 
     @Override

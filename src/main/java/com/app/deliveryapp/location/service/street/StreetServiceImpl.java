@@ -54,7 +54,7 @@ public class StreetServiceImpl implements StreetService{
         }
 
         // validate that state exist
-        if (!cityRepository.existsByName(requestDTO.getStateName())) {
+        if (!stateRepository.existsByName(requestDTO.getStateName())) {
             throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "state with name " + requestDTO.getStateName() + " cannot be found");
         }
 
@@ -70,6 +70,6 @@ public class StreetServiceImpl implements StreetService{
 
     @Override
     public List<Street> getAllStreet() {
-        return null;
+        return streetRepository.findAll();
     }
 }

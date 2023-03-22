@@ -63,7 +63,7 @@ public class LocalServiceImpl implements LocationService {
         }
 
         // validate that state exist
-        if (!cityRepository.existsByName(requestDTO.getStateName())) {
+        if (!stateRepository.existsByName(requestDTO.getStateName())) {
             throw new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88.responseCode, "state with name " + requestDTO.getStateName() + " cannot be found");
         }
 
@@ -93,6 +93,7 @@ public class LocalServiceImpl implements LocationService {
 
     @Override
     public Location getOneLocation(Long id) {
+        log.info("Getting one location with Id = {}", id);
 
         return locationRepository.findById(id).orElseThrow(() -> new GeneralException(ResponseCodeAndMessage.RECORD_NOT_FOUND_88));
     }
