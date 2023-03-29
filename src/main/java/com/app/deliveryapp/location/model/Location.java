@@ -1,7 +1,9 @@
-package com.app.deliveryapp.location.model;
+package com.app.deliveryapp.Deliverylocation.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -14,13 +16,18 @@ public class Location {
 
     private String houseNo;
 
-    @OneToOne
-    private Street street;
+    private String street;
 
-    @OneToOne
-    private City city;
+    private String city;
 
-    @OneToOne
-    private State state;
+    private String state;
+
+    private String country;
+
+    private String postalCode;
+
+    private LocalDateTime createdDate;
+
+    private String createdBy;
 
 }
